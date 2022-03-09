@@ -3,7 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBS3UtDmiAZGQJy79DDPPjW5wH53bt5xi4",
@@ -35,9 +42,21 @@ getDocs(colRef)
     console.log(err.message);
   });
 
+// Handle Add
+function handleAdd(e, title, author) {
+  e.preventDefault();
+  addDoc(colRef, {
+    title,
+    author,
+  });
+}
+function handleDelete(e, id) {
+  e.preventDefault();
+}
+// Handle Delete
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App handleAdd={handleAdd} handleDelete={handleDelete} />
   </React.StrictMode>,
   document.getElementById("root")
 );
