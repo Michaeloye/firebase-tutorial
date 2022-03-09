@@ -50,10 +50,13 @@ function handleAdd(e, title, author) {
     author,
   });
 }
+
+// Handle Delete
 function handleDelete(e, id) {
   e.preventDefault();
+  const docRef = doc(db, "books", id);
+  deleteDoc(docRef);
 }
-// Handle Delete
 ReactDOM.render(
   <React.StrictMode>
     <App handleAdd={handleAdd} handleDelete={handleDelete} />
