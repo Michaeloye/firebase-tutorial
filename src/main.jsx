@@ -12,6 +12,8 @@ import {
   onSnapshot,
   query,
   where,
+  orderBy,
+  serverTimestamp,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -32,7 +34,7 @@ const db = getFirestore();
 const colRef = collection(db, "books"); //database and collection name
 
 // queries
-const q = query(colRef, where("author", "==", "chinua achebe"));
+const q = query(colRef, orderBy("createdAT"));
 
 // get collection data anytime collection is updated
 onSnapshot(q, (snapshot) => {
@@ -49,6 +51,7 @@ function handleAdd(e, title, author) {
   addDoc(colRef, {
     title,
     author,
+    createdAt: serverTimestamp(),
   });
 }
 
