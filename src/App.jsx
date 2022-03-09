@@ -1,45 +1,49 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+function App({ handleAdd, handleDelete }) {
+  const [title, setTitle] = useState();
+  const [author, setAuthor] = useState();
+  const [id, setId] = useState();
 
+  function handleDelete(e) {
+    e.preventDefault();
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+      <form className="add" onSubmit={(e) => handleAdd(e, title, author)}>
+        <label htmlFor="title">Title:</label>
+        <input
+          type="text"
+          name="title"
+          required
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <label htmlFor="author">Author:</label>
+        <input
+          type="text"
+          name="author"
+          required
+          onChange={(e) => setAuthor(e.target.value)}
+        />
+
+        <button type="submit">A a new book</button>
+      </form>
+
+      <form className="delete" onSubmit={(e) => handleDelete(e, id)}>
+        <label htmlFor="id">Id:</label>
+        <input
+          type="text"
+          name="id"
+          required
+          onChange={(e) => setId(e.target.value)}
+        />
+
+        <button type="submit">Delete a book</button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
