@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
 function App({ handleAdd, handleDelete }) {
@@ -7,9 +6,6 @@ function App({ handleAdd, handleDelete }) {
   const [author, setAuthor] = useState();
   const [id, setId] = useState();
 
-  function handleDelete(e) {
-    e.preventDefault();
-  }
   return (
     <div className="App">
       <form className="add" onSubmit={(e) => handleAdd(e, title, author)}>
