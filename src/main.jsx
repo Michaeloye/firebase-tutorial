@@ -6,11 +6,12 @@ import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
-  getDocs,
   addDoc,
   deleteDoc,
   doc,
   onSnapshot,
+  query,
+  where,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -30,8 +31,11 @@ const db = getFirestore();
 // collection ref
 const colRef = collection(db, "books"); //database and collection name
 
+// queries
+const q = query(colRef, where("author", "==", "chinua achebe"));
+
 // get collection data anytime collection is updated
-onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
   let books = [];
   snapshot.docs.forEach((doc) => {
     books.push({ ...doc.data(), id: doc.id });
