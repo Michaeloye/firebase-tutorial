@@ -1,7 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 
-function App({ handleAdd, handleDelete, handleUpdate, handleSignup }) {
+function App({
+  handleAdd,
+  handleDelete,
+  handleUpdate,
+  handleSignup,
+  handleLogin,
+  handleLogout,
+}) {
   const [title, setTitle] = useState();
   const [author, setAuthor] = useState();
   const [id, setId] = useState();
@@ -80,6 +87,27 @@ function App({ handleAdd, handleDelete, handleUpdate, handleSignup }) {
         />
         <button type="submit">signup</button>
       </form>
+
+      {/* Login */}
+      <form className="login" onSubmit={(e) => handleLogin(e, email, password)}>
+        <label htmlFor="email">email:</label>
+        <input
+          type="email"
+          name="email"
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label htmlFor="password">password:</label>
+        <input
+          type="password"
+          name="password"
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">Login</button>
+      </form>
+      {/* Logout */}
+      <button className="logout" onClick={handleLogout}>
+        Logout
+      </button>
     </div>
   );
 }
