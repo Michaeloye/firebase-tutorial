@@ -18,6 +18,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBS3UtDmiAZGQJy79DDPPjW5wH53bt5xi4",
   authDomain: "fir-tutorial-5e091.firebaseapp.com",
@@ -31,6 +33,7 @@ initializeApp(firebaseConfig);
 
 //init services
 const db = getFirestore();
+const auth = getAuth();
 
 // collection ref
 const colRef = collection(db, "books"); //database and collection name
@@ -79,12 +82,25 @@ function handleUpdate(e, id, title) {
     title: title,
   });
 }
+
+// Handle Signup
+function handleSignup(e, email, password) {
+  e.preventDefault();
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((cred) => {
+      console.log("user created:", cred.user);
+    })
+    .catch((err) => {
+      console.log(err.message);
+    });
+}
 ReactDOM.render(
   <React.StrictMode>
     <App
       handleAdd={handleAdd}
       handleDelete={handleDelete}
       handleUpdate={handleUpdate}
+      handleSignup={handleSignup}
     />
   </React.StrictMode>,
   document.getElementById("root")
