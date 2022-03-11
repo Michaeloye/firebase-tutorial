@@ -14,6 +14,7 @@ import {
   where,
   orderBy,
   serverTimestamp,
+  getDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -61,6 +62,13 @@ function handleDelete(e, id) {
   const docRef = doc(db, "books", id);
   deleteDoc(docRef);
 }
+
+// get a single document
+const docRef = doc(db, "books", "eOyKOFD4i7BNsfnG05Hz");
+getDoc(docRef).then((doc) => {
+  console.log(doc.data(), doc.id);
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <App handleAdd={handleAdd} handleDelete={handleDelete} />
