@@ -48,7 +48,9 @@ const colRef = collection(db, "books"); //database and collection name
 const q = query(colRef, orderBy("createdAt"));
 
 // get collection data anytime collection is updated
-onSnapshot(q, (snapshot) => {
+// returns an unsubscribe function which is stored in unsubDoc
+
+const unsubCol = onSnapshot(q, (snapshot) => {
   let books = [];
   snapshot.docs.forEach((doc) => {
     books.push({ ...doc.data(), id: doc.id });
@@ -76,7 +78,7 @@ function handleDelete(e, id) {
 // get a single document
 const docRef = doc(db, "books", "eOyKOFD4i7BNsfnG05Hz");
 
-onSnapshot(docRef, (doc) => {
+const unsubDoc = onSnapshot(docRef, (doc) => {
   console.log(doc.data(), doc.id);
 });
 
@@ -121,9 +123,17 @@ function handleLogout() {
 }
 
 // subscribing to auth changes
-onAuthStateChanged(auth, (user) => {
+const unsubAuth = onAuthStateChanged(auth, (user) => {
   console.log("User status changed: ", user);
 });
+
+// unsubscribing to db/auth changes
+function handleUnsubscription() {
+  console.log("unsubscribing");
+  unsubCol();
+  unsubDoc();
+  unsubAuth();
+}
 
 ReactDOM.render(
   <React.StrictMode>
@@ -134,6 +144,7 @@ ReactDOM.render(
       handleSignup={handleSignup}
       handleLogin={handleLogin}
       handleLogout={handleLogout}
+      handleUnsubscription={handleUnsubscription}
     />
   </React.StrictMode>,
   document.getElementById("root")
