@@ -8,6 +8,7 @@ function App({
   handleSignup,
   handleLogin,
   handleLogout,
+  handleUnsubscription,
 }) {
   const [title, setTitle] = useState();
   const [author, setAuthor] = useState();
@@ -104,9 +105,16 @@ function App({
         />
         <button type="submit">Login</button>
       </form>
+
       {/* Logout */}
       <button className="logout" onClick={handleLogout}>
         Logout
+      </button>
+
+      {/* Unsubscribe */}
+      <h2>Unsubscribing</h2>
+      <button className="unsubscribe" onClick={handleUnsubscription}>
+        unsubscribe from db/auth changes
       </button>
     </div>
   );
