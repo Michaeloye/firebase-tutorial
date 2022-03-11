@@ -15,6 +15,7 @@ import {
   orderBy,
   serverTimestamp,
   getDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -35,7 +36,7 @@ const db = getFirestore();
 const colRef = collection(db, "books"); //database and collection name
 
 // queries
-const q = query(colRef, orderBy("createdAT"));
+const q = query(colRef, orderBy("createdAt"));
 
 // get collection data anytime collection is updated
 onSnapshot(q, (snapshot) => {
@@ -65,13 +66,26 @@ function handleDelete(e, id) {
 
 // get a single document
 const docRef = doc(db, "books", "eOyKOFD4i7BNsfnG05Hz");
-getDoc(docRef).then((doc) => {
+
+onSnapshot(docRef, (doc) => {
   console.log(doc.data(), doc.id);
 });
 
+// Handle Update
+function handleUpdate(e, id, title) {
+  e.preventDefault();
+  const docRef = doc(db, "books", id);
+  updateDoc(docRef, {
+    title: title,
+  });
+}
 ReactDOM.render(
   <React.StrictMode>
-    <App handleAdd={handleAdd} handleDelete={handleDelete} />
+    <App
+      handleAdd={handleAdd}
+      handleDelete={handleDelete}
+      handleUpdate={handleUpdate}
+    />
   </React.StrictMode>,
   document.getElementById("root")
 );
