@@ -23,6 +23,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "firebase/auth";
 
 const firebaseConfig = {
@@ -93,7 +94,7 @@ function handleSignup(e, email, password) {
   e.preventDefault();
   createUserWithEmailAndPassword(auth, email, password)
     .then((cred) => {
-      console.log("user created:", cred.user);
+      // console.log("user created:", cred.user);
     })
     .catch((err) => {
       console.log(err.message);
@@ -104,7 +105,9 @@ function handleSignup(e, email, password) {
 function handleLogin(e, email, password) {
   e.preventDefault();
   signInWithEmailAndPassword(auth, email, password)
-    .then((cred) => console.log("user logged in: ", cred.user))
+    .then((cred) => {
+      // console.log("user logged in: ", cred.user);
+    })
     .catch((err) => console.log(err.message));
 }
 
@@ -112,10 +115,16 @@ function handleLogin(e, email, password) {
 function handleLogout() {
   signOut(auth)
     .then(() => {
-      console.log("the user has logged out");
+      // console.log("the user has logged out");
     })
     .catch((err) => console.log(err.message));
 }
+
+// subscribing to auth changes
+onAuthStateChanged(auth, (user) => {
+  console.log("User status changed: ", user);
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <App
