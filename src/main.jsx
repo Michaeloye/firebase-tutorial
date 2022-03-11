@@ -18,7 +18,12 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signOut,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBS3UtDmiAZGQJy79DDPPjW5wH53bt5xi4",
@@ -94,6 +99,23 @@ function handleSignup(e, email, password) {
       console.log(err.message);
     });
 }
+
+// Handle Login
+function handleLogin(e, email, password) {
+  e.preventDefault();
+  signInWithEmailAndPassword(auth, email, password)
+    .then((cred) => console.log("user logged in: ", cred.user))
+    .catch((err) => console.log(err.message));
+}
+
+// Handle Logout
+function handleLogout() {
+  signOut(auth)
+    .then(() => {
+      console.log("the user has logged out");
+    })
+    .catch((err) => console.log(err.message));
+}
 ReactDOM.render(
   <React.StrictMode>
     <App
@@ -101,6 +123,8 @@ ReactDOM.render(
       handleDelete={handleDelete}
       handleUpdate={handleUpdate}
       handleSignup={handleSignup}
+      handleLogin={handleLogin}
+      handleLogout={handleLogout}
     />
   </React.StrictMode>,
   document.getElementById("root")
